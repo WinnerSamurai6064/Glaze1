@@ -4,16 +4,24 @@ class GlazeUser {
     required this.displayName,
     required this.username,
     this.avatarUrl,
+    this.bannerUrl,
+    this.email,
     this.bio = '',
     this.badge,
+    this.following = 0,
+    this.followers = 0,
   });
 
   final String id;
   final String displayName;
   final String username;
   final String? avatarUrl;
+  final String? bannerUrl;
+  final String? email;
   final String bio;
   final String? badge;
+  final int following;
+  final int followers;
 
   factory GlazeUser.fromJson(Map<String, dynamic> json) {
     return GlazeUser(
@@ -21,8 +29,12 @@ class GlazeUser {
       displayName: '${json['displayName'] ?? 'Glazer'}',
       username: '${json['username'] ?? 'glazer'}',
       avatarUrl: json['profilePic'] as String? ?? json['avatarUrl'] as String?,
+      bannerUrl: json['bannerPic'] as String? ?? json['bannerUrl'] as String?,
+      email: json['email'] as String?,
       bio: '${json['bio'] ?? ''}',
       badge: json['badge'] as String?,
+      following: json['following'] as int? ?? 0,
+      followers: json['followers'] as int? ?? 0,
     );
   }
 }
