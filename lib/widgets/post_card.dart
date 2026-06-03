@@ -28,13 +28,6 @@ class PostCard extends StatelessWidget {
         color: GlazeTheme.cardBlack.withOpacity(0.92),
         borderRadius: BorderRadius.circular(28),
         border: Border.all(color: Colors.white.withOpacity(0.08)),
-        boxShadow: [
-          BoxShadow(
-            color: GlazeTheme.orange.withOpacity(0.05),
-            blurRadius: 26,
-            offset: const Offset(0, 12),
-          ),
-        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,10 +99,10 @@ class PostCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _Action(icon: Icons.chat_bubble_outline_rounded, label: '${post.comments}'),
-                    _Action(icon: Icons.repeat_rounded, label: 'Reglazed', active: post.reglazed),
-                    _Action(icon: post.liked ? Icons.favorite_rounded : Icons.favorite_border_rounded, label: 'Liked', active: post.liked),
-                    const _Action(icon: Icons.ios_share_rounded, label: 'Share post'),
+                    _Action(icon: Icons.chat_bubble_outline_rounded, count: post.comments),
+                    _Action(icon: Icons.repeat_rounded, count: post.reGlazes, active: post.reglazed),
+                    _Action(icon: post.liked ? Icons.favorite_rounded : Icons.favorite_border_rounded, count: post.likes, active: post.liked),
+                    const _Action(icon: Icons.ios_share_rounded),
                   ],
                 ),
               ],
@@ -122,10 +115,10 @@ class PostCard extends StatelessWidget {
 }
 
 class _Action extends StatelessWidget {
-  const _Action({required this.icon, required this.label, this.active = false});
+  const _Action({required this.icon, this.count, this.active = false});
 
   final IconData icon;
-  final String label;
+  final int? count;
   final bool active;
 
   @override
@@ -134,16 +127,18 @@ class _Action extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: color, size: 21),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: color,
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
+        Icon(icon, color: color, size: 23),
+        if (count != null) ...[
+          const SizedBox(width: 6),
+          Text(
+            '$count',
+            style: TextStyle(
+              color: color,
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
