@@ -31,9 +31,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void _openProfile(GlazeUser user) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ProfileScreen(user: user),
-      ),
+      MaterialPageRoute(builder: (_) => ProfileScreen(user: user)),
     );
   }
 
@@ -42,39 +40,33 @@ class _FeedScreenState extends State<FeedScreen> {
     return FutureBuilder<_FeedData>(
       future: _future,
       builder: (context, snapshot) {
-        final data = snapshot.data ?? _FeedData(
-          content: const GlazeContent(),
-          posts: demoPosts,
-        );
+        final data = snapshot.data ?? _FeedData(content: const GlazeContent(), posts: demoPosts);
 
-        return Scaffold(
-          body: SafeArea(
-            child: RefreshIndicator(
-              color: GlazeTheme.orange,
-              onRefresh: () async {
-                setState(() => _future = _load());
-                await _future;
-              },
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
-                children: [
-                  _Header(title: data.content.feedTitle),
-                  const SizedBox(height: 18),
-                  _Composer(placeholder: data.content.composerPlaceholder),
-                  const SizedBox(height: 18),
-                  if (data.posts.isEmpty)
-                    _EmptyState(text: data.content.emptyPosts)
-                  else
-                    for (final post in data.posts)
-                      PostCard(
-                        post: post,
-                        onOpenProfile: () => _openProfile(post.user),
-                      ),
-                ],
-              ),
+        return SafeArea(
+          child: RefreshIndicator(
+            color: GlazeTheme.orange,
+            onRefresh: () async {
+              setState(() => _future = _load());
+              await _future;
+            },
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 110),
+              children: [
+                _Header(title: data.content.feedTitle),
+                const SizedBox(height: 18),
+                _Composer(placeholder: data.content.composerPlaceholder),
+                const SizedBox(height: 18),
+                if (data.posts.isEmpty)
+                  _EmptyState(text: data.content.emptyPosts)
+                else
+                  for (final post in data.posts)
+                    PostCard(
+                      post: post,
+                      onOpenProfile: () => _openProfile(post.user),
+                    ),
+              ],
             ),
           ),
-          bottomNavigationBar: const _BottomNav(),
         );
       },
     );
@@ -122,14 +114,14 @@ class _Header extends StatelessWidget {
           ],
         ),
         Container(
-          width: 44,
-          height: 44,
+          width: 54,
+          height: 54,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.white.withOpacity(0.06),
             border: Border.all(color: Colors.white.withOpacity(0.08)),
           ),
-          child: const Icon(Icons.add_rounded, color: GlazeTheme.orange),
+          child: const Icon(Icons.add_rounded, color: GlazeTheme.orange, size: 31),
         ),
       ],
     );
@@ -190,47 +182,6 @@ class _EmptyState extends StatelessWidget {
           style: TextStyle(color: Colors.white.withOpacity(0.55), fontWeight: FontWeight.w700),
         ),
       ),
-    );
-  }
-}
-
-class _BottomNav extends StatelessWidget {
-  const _BottomNav();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.96),
-        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.08))),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          _NavIcon(icon: Icons.home_rounded, active: true),
-          _NavIcon(icon: Icons.search_rounded),
-          _NavIcon(icon: Icons.notifications_none_rounded),
-          _NavIcon(icon: Icons.mail_outline_rounded),
-          _NavIcon(icon: Icons.person_outline_rounded),
-        ],
-      ),
-    );
-  }
-}
-
-class _NavIcon extends StatelessWidget {
-  const _NavIcon({required this.icon, this.active = false});
-
-  final IconData icon;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      icon,
-      color: active ? GlazeTheme.orange : Colors.white.withOpacity(0.42),
-      size: 27,
     );
   }
 }
