@@ -22,31 +22,21 @@ class PostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.fromLTRB(18, 22, 18, 18),
       decoration: BoxDecoration(
-        color: GlazeTheme.cardBlack.withOpacity(0.92),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        color: const Color(0xFF030303),
+        borderRadius: BorderRadius.circular(34),
+        border: Border.all(color: Colors.white.withOpacity(0.075)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
             onTap: onOpenProfile,
-            child: CircleAvatar(
-              radius: 27,
-              backgroundColor: Colors.white.withOpacity(0.10),
-              backgroundImage: post.user.avatarUrl == null ? null : NetworkImage(post.user.avatarUrl!),
-              child: post.user.avatarUrl == null
-                  ? Text(
-                      post.user.displayName.characters.first.toUpperCase(),
-                      style: const TextStyle(fontWeight: FontWeight.w900),
-                    )
-                  : null,
-            ),
+            child: _Avatar(user: post.user),
           ),
-          const SizedBox(width: 13),
+          const SizedBox(width: 18),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,41 +51,42 @@ class PostCard extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontSize: 17,
+                            fontSize: 18,
                             fontWeight: FontWeight.w900,
-                            letterSpacing: 0.1,
+                            letterSpacing: 0.2,
                           ),
                         ),
                       ),
                     ),
-                    GlazeBadge(badge: post.user.badge, size: 17),
+                    GlazeBadge(badge: post.user.badge, size: 18),
                     Text(
-                      _date,
+                      '•  $_date',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.34),
-                        fontSize: 13,
+                        color: Colors.white.withOpacity(0.30),
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 18),
                 Text(
                   post.content,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     height: 1.45,
                     fontWeight: FontWeight.w500,
+                    letterSpacing: 0.2,
                   ),
                 ),
                 if (post.imageUrl != null) ...[
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 18),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(22),
+                    borderRadius: BorderRadius.circular(20),
                     child: Image.network(post.imageUrl!),
                   ),
                 ],
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -114,6 +105,37 @@ class PostCard extends StatelessWidget {
   }
 }
 
+class _Avatar extends StatelessWidget {
+  const _Avatar({required this.user});
+
+  final GlazeUser user;
+
+  Color get _fallbackColor {
+    if (user.id.contains('young')) return const Color(0xFF005C9E);
+    if (user.id.contains('diamond')) return const Color(0xFF5428B8);
+    return const Color(0xFF1B1B1D);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 31,
+      backgroundColor: _fallbackColor,
+      backgroundImage: user.avatarUrl == null ? null : NetworkImage(user.avatarUrl!),
+      child: user.avatarUrl == null
+          ? Text(
+              user.displayName.characters.first.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              ),
+            )
+          : null,
+    );
+  }
+}
+
 class _Action extends StatelessWidget {
   const _Action({required this.icon, this.count, this.active = false});
 
@@ -123,18 +145,18 @@ class _Action extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? GlazeTheme.orange : Colors.white.withOpacity(0.42);
+    final color = active ? GlazeTheme.orange : Colors.white.withOpacity(0.34);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: color, size: 23),
+        Icon(icon, color: color, size: 24),
         if (count != null) ...[
-          const SizedBox(width: 6),
+          const SizedBox(width: 7),
           Text(
             '$count',
             style: TextStyle(
               color: color,
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: FontWeight.w800,
             ),
           ),
