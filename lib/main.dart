@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'config/app_config.dart';
-import 'screens/feed_screen.dart';
+import 'screens/app_shell.dart';
 import 'theme/glaze_theme.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class GlazeApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: AppConfig.appName,
       theme: GlazeTheme.dark(),
-      home: const FeedScreen(),
+      home: const AppShell(),
     );
   }
 }
