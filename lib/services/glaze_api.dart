@@ -40,10 +40,7 @@ class GlazeApi {
 
       final data = jsonDecode(response.body);
       if (data is List) {
-        return data
-            .whereType<Map<String, dynamic>>()
-            .map(GlazePost.fromJson)
-            .toList();
+        return data.whereType<Map<String, dynamic>>().map(GlazePost.fromJson).toList();
       }
 
       return demoPosts;
@@ -79,36 +76,49 @@ final demoUser = GlazeUser(
   id: 'demo-jeanie',
   displayName: 'Jeanie Ross',
   username: 'heyjeanie',
-  bio: 'Building something warm, fast and beautifully social.',
+  email: 'halexbody@gmail.com',
+  bio: 'Connect, explore and discover your voice',
   badge: 'blue',
+  following: 1,
+  followers: 2,
 );
 
-final demoBusinessUser = GlazeUser(
+final demoYoungScottish = GlazeUser(
+  id: 'demo-young-scottish',
+  displayName: 'Young Scottish',
+  username: 'youngscottish',
+);
+
+final demoDiamond = GlazeUser(
   id: 'demo-diamond',
-  displayName: 'Diamond Studio',
-  username: 'diamondstudio',
-  bio: 'A creative studio testing Glaze.',
-  badge: 'green',
+  displayName: 'Diamond Dee',
+  username: 'diamond',
+  email: 'gradedmaloka@gmail.com',
+  bio: 'Connect, explore and discover your voice',
+  following: 1,
+  followers: 2,
 );
 
 final demoPosts = <GlazePost>[
   GlazePost(
-    id: 'post-1',
-    user: demoUser,
-    content: 'Glaze feels cleaner when the feed focuses on names, badges and the actual post.',
+    id: 'post-young-1',
+    user: demoYoungScottish,
+    content: 'what a great day',
     createdAt: DateTime(2026, 6, 2),
-    likes: 23,
-    reGlazes: 4,
-    comments: 6,
-    liked: true,
+    likes: 2,
   ),
   GlazePost(
-    id: 'post-2',
-    user: demoBusinessUser,
-    content: 'Separate frontend, backend, data and CMS. That is how the rebuild stays stable.',
-    createdAt: DateTime(2026, 6, 1),
-    likes: 11,
-    reGlazes: 2,
-    comments: 3,
+    id: 'post-jeanie-1',
+    user: demoUser,
+    content: 'hang on , the ride is about to begin',
+    createdAt: DateTime(2026, 6, 2),
+    likes: 1,
+    reGlazes: 1,
+  ),
+  GlazePost(
+    id: 'post-lawrence-1',
+    user: const GlazeUser(id: 'demo-lawrence', displayName: 'Lawrence', username: 'lawdarence'),
+    content: 'I could have sworn I saw a rat',
+    createdAt: DateTime(2026, 6, 2),
   ),
 ];
